@@ -1,9 +1,8 @@
 <?php
-
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdministratorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +13,16 @@ use App\Http\Controllers\PostController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', [PostController::class, 'index']);
+Route::get('/dashboard', [PostController::class, 'top'])->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('index');
+    Route::get('/posts/create', [PostController::class, 'create']);
+    Route::post('/posts', [PostController::class, 'store']);
+    
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/posts/{post}', [PostController::class ,'show']);
+});
+require __DIR__.'/auth.php';
 
