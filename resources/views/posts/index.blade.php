@@ -6,6 +6,12 @@
     </x-slot>
     
     <h1>一人旅ブログ</h1>
+    <div>
+      <form action="{{ route('posts.index') }}" method="GET">
+        <input type="text" name="keyword" value="{{ $keyword }}">
+        <input type="submit" value="検索">
+      </form>
+    </div>
     <div class='posts'>
         @foreach ($posts as $post)
             <div class='post'>
